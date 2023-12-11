@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-
 class BlogPost(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
@@ -18,6 +17,5 @@ class BlogPost(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog_post_detail", kwargs={"pk": self.pk})
-
 
 admin.site.register(BlogPost, list_display=("name", "published_at"))

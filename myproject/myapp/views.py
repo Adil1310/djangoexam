@@ -4,9 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
-
 from . import models
-
 
 class FilterForm(forms.Form):
     author = forms.ModelChoiceField(
@@ -17,7 +15,6 @@ class FilterForm(forms.Form):
         if author := self.cleaned_data.get("author"):
             queryset = queryset.filter(author=author)
         return queryset
-
 
 def blog_post_list(request):
     posts = models.BlogPost.objects.all()
@@ -31,9 +28,7 @@ def blog_post_detail(request, pk):
     post = get_object_or_404(models.BlogPost, pk=pk)
     return render(request, "blog_post_detail.html", {"blog_post": post})
 
-
 BlogPostForm = forms.modelform_factory(models.BlogPost, fields=("name", "text"))
-
 
 @login_required
 def blog_post_create(request):
@@ -47,7 +42,6 @@ def blog_post_create(request):
             messages.success(request, "Blog Post created successfully")
             return redirect(post.get_absolute_url())
     return render(request, "blog_post_form.html", {"form": form})
-
 
 @login_required
 def blog_post_update(request, pk):
@@ -63,7 +57,6 @@ def blog_post_update(request, pk):
             messages.success(request, "Blog Post updated successfully")
             return redirect(post.get_absolute_url())
     return render(request, "blog_post_form.html", {"form": form, "blog_post": post})
-
 
 @login_required
 def blog_post_delete(request, pk):
