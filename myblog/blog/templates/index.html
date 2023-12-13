@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid">
+                        
+            <div class="row tm-row">
+                {% for p in posts %}
+                {% if p.is_active %}
+                    <article class="col-12 col-md-6 tm-post">
+                        <hr class="tm-hr-primary">
+                        <a href="{% url 'blog:post' slug=p.slug %}" class="effect-lily tm-post-link tm-pt-60">
+                            <div class="tm-post-link-inner">
+                                {% if p.image %}
+                                    <img src="{{p.image.url}}" alt="Image" class="img-fluid">
+                                {% else %}
+                                    <img src="{% static 'img/defaultBlog.jpg' %}" alt="Image" class="img-fluid">
+                                {% endif %}
+                            </div>
+                            {% if p in latest %}
+                            <span class="position-absolute tm-new-badge">New</span>
+                            {% endif %}
+                            <h2 class="tm-pt-30 tm-color-primary tm-post-title">{{p.title}}</h2>
+                        </a>                    
+                        <p class="tm-pt-30">
+                            {{p.body|truncatechars:255|safe}}
+                        </p>
+                        <div class="d-flex justify-content-between tm-pt-45">
+                            <span class="tm-color-primary">{{p.category}}</span>
+                            <span class="tm-color-primary">{{p.created_at|date}}</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>{{p.comment_count}} comments</span>
+                            <span>by {{p.author}}</span>
+                        </div>
+                    </article>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row tm-row tm-mt-100 tm-mb-75">
+                <div class="tm-prev-next-wrapper">
+                    {% if posts.has_previous %}
+                        <a href="?page={{ posts.previous_page_number }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20">Prev</a>
+                    {% endif %}
+                    {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                    {% endif %}
+                </div>
+                <div class="tm-paging-wrapper">
+                    <span class="d-inline-block mr-3">Page</span>
+                    <nav class="tm-paging-nav d-inline-block">
+                        <ul>
+                            {% for page in paginator.page_range|slice:":3" %}
+                                <li class="tm-paging-item {% if page == posts.number %}active{% endif %}">
+                                    <a href="?page={{ page }}" class="mb-2 tm-btn tm-paging-link">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if paginator.num_pages >= 4 %}
+                                <li class="tm-paging-item">
+                                    <a href="#" class="mb-2 tm-btn tm-paging-link">...</a>
+                                </li>
+                                <li class="tm-paging-item {% if paginator.num_pages == posts.number %} active {% endif %}">
+                                    <a href="?page={{ paginator.num_pages }}" class="mb-2 tm-btn tm-paging-link">{{ paginator.num_pages }}</a>
+                                </li>                                
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-center">Post Something..</h1>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-info" role="alert">
+            <strong>Alert!</strong> {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+<form method="POST" action="/postBlog/" enctype="multipart/form-data">                        
+    {% csrf_token %}
+    <div class="container mt-4">
+        {{ form.as_p }}
+        <button class="tm-btn tm-btn-primary">Submit</button>
+    </div>
+</form>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
