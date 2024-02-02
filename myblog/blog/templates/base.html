@@ -1,81 +1,98 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Blog</title>
-        <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/templatemo-xtra-blog.css' %}" rel="stylesheet">
-    </head>
-    </body>
-   
-        <header class="tm-header" id="tm-header">
-            <div class="tm-header-wrapper">
-                <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="tm-site-header">          
-                    <h1 class="text-center">My Blog</h1>
-                </div>
-                <nav class="tm-nav" id="tm-nav">            
-                    <ul>
-                        {% url 'blog:index' as url %}
-                        <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
-                            <a href="{{ url }}" class="tm-nav-link">
-                            <i class="fas fa-home"></i>
-                            Blog Home
-                        </a></li>
-                        {% url 'blog:postBlog' as url %}
-                        <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
-                            <a href="{{ url }}" class="tm-nav-link">
-                            <i class="fas fa-pen"></i>
-                            Post a Blog
-                        </a></li>
-                        {% if user.is_authenticated %}
-                            {% url 'logout' as url %}
-                            <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
-                                <a href="{{ url }}" class="tm-nav-link">
-                                <i class="fa fa-sign-out"></i>
-                                Logout
-                            </a></li>
-                        {% else %}
-                            {% url 'login' as url %}
-                            <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
-                                <a href="{{ url }}" class="tm-nav-link">
-                                <i class="fa fa-sign-in"></i>
-                                Login
-                            </a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-                <p class="tm-mb-80 pr-5 text-white">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda placeat voluptatibus totam?
-                </p>
-            </div>
-        </header>
 
-        <main class="tm-main">
-     
-            {% block content %}
-            {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/templatemo-xtra-blog.css' %}" rel="stylesheet">
+</head>
+</body>
 
-            <footer class="row tm-row">
-                <hr class="col-12">
-                <div class="col-md-6 col-12 tm-color-gray">
-                    Github: <a rel="nofollow" target="_parent" href="https://github.com/Adil1310" class="tm-external-link">Adil Rahimov</a>
-                </div>
-                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-                    Astana, 2023
-                </div>
-            </footer>
-        
-        </main>
+<header class="tm-header" id="tm-header">
+    <div class="tm-header-wrapper">
+        <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="tm-site-header">
+            <h1 class="text-center">My Blog</h1>
+        </div>
+        <nav class="tm-nav" id="tm-nav">
+            <ul>
+                {% url 'blog:index' as url %}
+                <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
+                    <a href="{{ url }}" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Blog Home
+                    </a>
+                </li>
+                {% url 'blog:postBlog' as url %}
+                <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
+                    <a href="{{ url }}" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Post a Blog
+                    </a>
+                </li>
+                {% url 'blog:post-list' as post_list_url %}
+                <li class="tm-nav-item {% if request.path == post_list_url %}active{% endif %}">
+                    <a href="{{ post_list_url }}" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Search a post
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                {% url 'logout' as url %}
+                <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
+                    <a href="{{ url }}" class="tm-nav-link">
+                        <i class="fa fa-sign-out"></i>
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                {% url 'login' as url %}
+                <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
+                    <a href="{{ url }}" class="tm-nav-link">
+                        <i class="fa fa-sign-in"></i>
+                        Login
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="tm-mb-80 pr-5 text-white">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda placeat voluptatibus totam?
+        </p>
+    </div>
+</header>
 
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-        <script src="{% static 'js/templatemo-script.js' %}"></script>
-    </body>
+<main class="tm-main">
+
+    {% block content %}
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    <footer class="row tm-row">
+        <hr class="col-12">
+        <div class="col-md-6 col-12 tm-color-gray">
+            Github: <a rel="nofollow" target="_parent" href="https://github.com/Adil1310" class="tm-external-link">Adil
+                Rahimov</a>
+        </div>
+        <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+            Astana, 2023
+        </div>
+    </footer>
+
+</main>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/templatemo-script.js' %}"></script>
+</body>
+
 </html>

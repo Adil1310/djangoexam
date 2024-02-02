@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from .forms import *
-from django.contrib import messages
 from .models import *
 
 class IndexView(generic.TemplateView):
@@ -114,7 +114,6 @@ class LoginView(generic.View):
             messages.get_messages(request).used = True
             return render(request, self.template_name)
 
-
 class SignupView(generic.View):
     template_name = 'registration/signup.html'
     success_url = "/"
@@ -157,3 +156,17 @@ class LogoutView(generic.View):
     def get(self, request):
         auth_logout(request)
         return redirect('blog:index')
+
+class PostList(LoginRequiredMixin, generic.ListView):
+    template_name = "post_list.html"
+    context_object_name = "posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        posts = Post.objects.all()
+        
+        if query:
+            posts = posts.filter(title__icontains=query)
+        
+        return posts

@@ -1,7 +1,6 @@
 from django import forms
 from .models import *
 
-
 class ContactForm(forms.ModelForm):
 	class Meta:
 		model = ContactProfile
@@ -32,24 +31,4 @@ class PostForm(forms.ModelForm):
 			'category': forms.TextInput(attrs={'class': 'form-control' , 'required': 'True'}),
 			'body': forms.Textarea(attrs={'class': 'form-control' , 'required': 'True'}),
 			'image': forms.FileInput(attrs={'class': 'form-control'}),
-		}
-
-class UserProfileForm(forms.ModelForm):
-	class Meta:
-		model = UserProfile
-		fields = [
-			'avatar',
-			'bio',
-			'phone_no',
-			'facebook',
-			'instagram',
-			'linkedin',
-		]
-		widgets = {
-			'avatar': forms.FileInput(attrs={'class': 'form-control'}),
-			'bio': forms.Textarea(attrs={'class': 'form-control'}),
-			'phone_no': forms.TextInput(attrs={'class': 'form-control'}),
-			'facebook': forms.TextInput(attrs={'class': 'form-control'}),
-			'instagram': forms.TextInput(attrs={'class': 'form-control'}),
-			'linkedin': forms.TextInput(attrs={'class': 'form-control'}),
 		}
