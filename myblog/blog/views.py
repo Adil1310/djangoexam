@@ -14,8 +14,12 @@ class IndexView(generic.TemplateView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        posts = Post.objects.all().annotate(comment_count=Count('comment')).order_by('-id')
+        context = super().get_context_data(**kwargs) 
+        #вызываем метод get_context_data() родительского класса и сохраняет его результаты в переменную context. 
+        
+        posts = Post.objects.all().annotate(comment_count=Count('comment')).order_by('-id') 
+        #Здесь мы получаем все объекты модели Post из базы данных с использованием метода all().
+        
         paginator = Paginator(posts, 6)
         page_number = self.request.GET.get('page')
         try:
@@ -24,8 +28,9 @@ class IndexView(generic.TemplateView):
             posts = paginator.page(1)
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)
+        #разбивает список постов на страницы. На каждой странице будет отображаться 6 постов.
 
-        latest  = Post.objects.all().order_by('-id')[:3]
+        latest  = Post.objects.all().order_by('-id')[:3] #для упорядочивания постов по убыванию значения поля id.
         context['posts'] = posts
         context['latest'] = latest
         context['paginator'] = paginator
